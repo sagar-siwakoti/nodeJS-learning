@@ -1,16 +1,8 @@
-/*
-global.setTimeout(()=>{
-    console.log("in the time out");
-    clearInterval(int);
-},3000);
-
-const int=setInterval(()=>{
-    console.log("in the interval")
-},1000)*/
-
-/*
-console.log(__dirname);
-console.log(__filename);
-*/
-
-console.log(document.querySelector)
+const express = require("express");
+//express app
+const app = express();
+//listen for request
+app.listen(3000);
+app.get('/',(req,res)=>{
+    res.send('<p>This is home page</p>');
+})
