@@ -20,6 +20,7 @@ app.set("view engine", "ejs");
 
 // middleware & static files
 app.use(express.static("public"));
+app.use(express.urlencoded({ extended: true }));
 app.use(morgan("dev"));
 app.use((req, res, next) => {
   res.locals.path = req.path;
@@ -72,6 +73,30 @@ app.get("/about", (req, res) => {
   res.render("about", { title: "About" });
 });
 
+//GET BY ID
+
+app.get('/blogs/:id', (req, res) => {
+  const id = req.params.id;
+  Blog.findById(id)
+      .then(result => {
+        res.render('details', { blog: result, title: 'Blog Details' });
+      })
+      .catch(err => {
+        console.log(err);
+      });
+});
+app.delete('/blogs/:id', (req, res) => {
+  const id = req.params.id;
+
+  Blog.findByIdAndDelete(id)
+      .then(result => {
+        res.json({ redirect: '/blogs' });
+      })
+      .catch(err => {
+        console.log(err);
+      });
+});
+
 // blog routes
 app.get("/blogs/create", (req, res) => {
   res.render("create", { title: "Create a new blog" });
@@ -82,6 +107,19 @@ app.get("/blogs", (req, res) => {
     .sort({ createdAt: -1 })
     .then((result) => {
       res.render("index", { blogs: result, title: "All blogs" });
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+});
+
+//POST request
+app.post("/blogs", (req, res) => {
+  const blog = new Blog(req.body);
+  blog
+    .save()
+    .then((result) => {
+      res.redirect("/blogs");
     })
     .catch((err) => {
       console.log(err);
