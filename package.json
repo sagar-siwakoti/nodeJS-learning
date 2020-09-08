@@ -21,6 +21,7 @@
   },
   "homepage": "https://github.com/sagar-siwakoti/nodeJS-learning#readme",
   "dependencies": {
+    "ejs": "^3.1.5",
     "express": "^4.17.1",
     "lodash": "^4.17.20"
   },
